@@ -1,0 +1,39 @@
+import pandas as pd
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.preprocessing import LabelEncoder
+
+# Load the dataset
+file_path = '/content/Lipstick.csv'  # Path to your uploaded dataset
+data = pd.read_csv(file_path)
+
+# Encode categorical variables
+label_encoders = {}
+for column in ['Age', 'Income', 'Gender', 'Ms', 'Buys']:
+    label_encoders[column] = LabelEncoder()
+    data[column] = label_encoders[column].fit_transform(data[column])
+
+# Split the features and target variable
+X = data[['Age', 'Income', 'Gender', 'Ms']]
+y = data['Buys']
+
+# Train the decision tree classifier
+clf = DecisionTreeClassifier()
+clf.fit(X, y)
+
+# Test data
+test_data = pd.DataFrame({
+    'Age': ['<21'],
+    'Income': ['Low'],
+    'Gender': ['Female'],
+    'Ms': ['Married']
+})
+
+# Encode the test data
+for column in test_data.columns:
+    test_data[column] = label_encoders[column].transform(test_data[column])
+
+# Predict the decision for the test data
+prediction = clf.predict(test_data)
+decision = label_encoders['Buys'].inverse_transform(prediction)
+
+print(f"Decision for the test data: {decision[0]}")
