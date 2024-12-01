@@ -1,0 +1,52 @@
+import numpy as np
+
+# Define the points
+points = np.array([
+    [0.1, 0.6],  # P1
+    [0.15, 0.71],  # P2
+    [0.08, 0.9],  # P3
+    [0.16, 0.85],  # P4
+    [0.2, 0.3],  # P5
+    [0.25, 0.5],  # P6
+    [0.24, 0.1],  # P7
+    [0.3, 0.2]  # P8
+])
+
+# Initial centroids
+m1 = points[0]  # P1
+m2 = points[7]  # P8
+
+# Function to calculate Euclidean distance
+def euclidean_distance(p1, p2):
+    return np.sqrt(np.sum((p1 - p2) ** 2))
+
+# Perform one iteration of k-means clustering
+clusters = {1: [], 2: []}
+
+for point in points:
+    dist_m1 = euclidean_distance(point, m1)
+    dist_m2 = euclidean_distance(point, m2)
+    if dist_m1 < dist_m2:
+        clusters[1].append(point)
+    else:
+        clusters[2].append(point)
+
+# Update centroids
+m1_updated = np.mean(clusters[1], axis=0)
+m2_updated = np.mean(clusters[2], axis=0)
+
+# Answer the questions
+# 1. Which cluster does P6 belong to?
+p6_cluster = 1 if euclidean_distance(points[5], m1) < euclidean_distance(points[5], m2) else 2
+
+# 2. What is the population of cluster around m2?
+population_m2 = len(clusters[2])
+
+# 3. Updated values of m1 and m2
+updated_m1 = m1_updated
+updated_m2 = m2_updated
+
+# Output
+print(f"1. P6 belongs to Cluster#{p6_cluster}")
+print(f"2. Population of Cluster#2 around m2: {population_m2}")
+print(f"3. Updated values of m1: {updated_m1}, m2: {updated_m2}")
