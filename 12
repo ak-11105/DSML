@@ -1,0 +1,27 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Load the Iris dataset
+df = pd.read_csv('Datasets/IRIS.csv')
+
+# Create a box plot for each feature
+features = df.columns[:-1]  # Exclude the target column
+
+for feature in features:
+    plt.figure(figsize=(8, 5))
+    sns.boxplot(data=df, x=feature, color='lightblue')
+    plt.title(f'Box Plot of {feature}')
+    plt.xlabel(feature)
+    plt.grid(axis='y')
+    plt.show()
+
+# Discussion on distributions and outliers
+for feature in features:
+    q1 = df[feature].quantile(0.25)
+    q3 = df[feature].quantile(0.75)
+    iqr = q3 - q1
+    lower_bound = q1 - 1.5 * iqr
+    upper_bound = q3 + 1.5 * iqr
+    outliers = df[(df[feature] < lower_bound) | (df[feature] > upper_bound)][feature]
+    print(f"Outliers in {feature}: {outliers.values}")
