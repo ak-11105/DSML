@@ -1,0 +1,40 @@
+import numpy as np
+import pandas as pd
+
+df = pd.read_csv('Datasets/Telecom Churn.csv')
+
+df.head()
+
+df.describe()
+
+df_numeric = df.select_dtypes(include=['number'])
+
+# Minimum value
+print("Minimum values:")
+print(df_numeric.min())
+
+# Maximum value
+print("\nMaximum values:")
+print(df_numeric.max())
+
+# Mean
+print("\nMean values:")
+print(df_numeric.mean())
+
+# Range (max - min)
+print("\nRange values:")
+range_values = df_numeric.max() - df_numeric.min()
+print(range_values)
+
+# Standard Deviation
+print("\nStandard Deviation:")
+print(df_numeric.std())
+
+# Variance
+print("\nVariance:")
+print(df_numeric.var())
+
+# Percentiles (25th, 50th (median), and 75th percentiles)
+print("\nPercentiles:")
+percentiles = df_numeric.quantile([0.25, 0.5, 0.75])
+print(percentiles)
