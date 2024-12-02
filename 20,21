@@ -1,0 +1,39 @@
+import numpy as np
+import pandas as pd
+from sklearn.datasets import load_iris
+
+# Load the Iris dataset
+iris = load_iris()
+data = iris.data  # Use only the features (sepal length, sepal width, petal length, petal width)
+
+# Number of clusters (K)
+K = 3
+
+# Randomly initialize cluster means
+np.random.seed(42)  # For reproducibility
+initial_means_indices = np.random.choice(data.shape[0], K, replace=False)
+means = data[initial_means_indices]
+
+# Function to calculate Euclidean distance
+def euclidean_distance(p1, p2):
+    return np.sqrt(np.sum((p1 - p2) ** 2))
+
+# Perform K-means clustering
+max_iterations = 10
+for iteration in range(max_iterations):
+    # Assign points to the nearest cluster
+    clusters = {i: [] for i in range(K)}  # Create empty clusters
+    for point in data:
+        distances = [euclidean_distance(point, mean) for mean in means]
+        cluster_index = np.argmin(distances)
+        clusters[cluster_index].append(point)
+    
+    # Update cluster means
+    for i in range(K):
+        if clusters[i]:  # Avoid empty clusters
+            means[i] = np.mean(clusters[i], axis=0)
+
+# Print the final cluster means
+print("Final cluster means after 10 iterations:")
+for i, mean in enumerate(means):
+    print(f"Cluster {i + 1} mean: {mean}")
