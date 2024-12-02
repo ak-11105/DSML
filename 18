@@ -1,0 +1,26 @@
+import pandas as pd
+
+# Load the dataset
+# Replace 'House_Price.csv' with your actual file path
+df = pd.read_csv('House_Price.csv')
+
+# Example: Grouping a quantitative variable (e.g., 'SalePrice') by a categorical variable (e.g., 'Neighborhood')
+grouped_stats = df.groupby('Neighborhood')['SalePrice'].agg(
+    Mean='mean',
+    Median='median',
+    Min='min',
+    Max='max',
+    Std_Dev='std'
+).reset_index()
+
+# Print the summary statistics
+print(grouped_stats)
+
+# Visualizing the grouped data (optional)
+import matplotlib.pyplot as plt
+plt.figure(figsize=(12, 6))
+grouped_stats.set_index('Neighborhood')['Mean'].plot(kind='bar', color='skyblue', title="Average Sale Price by Neighborhood")
+plt.ylabel("Mean Sale Price")
+plt.xlabel("Neighborhood")
+plt.xticks(rotation=45)
+plt.show()
