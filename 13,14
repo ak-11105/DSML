@@ -1,0 +1,67 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+df = pd.read_csv('Datasets/Covid Vaccine Statewise.csv')
+
+df.head()
+
+df.describe()
+
+first_dose_vaccination = df[['State','First Dose Administered']]
+first_dose_vaccination
+
+first_dose_vaccination = df[['State','Second Dose Administered']]
+first_dose_vaccination
+
+state_wise_first_dose = df.groupby('State')['First Dose Administered'].sum()
+
+state_wise_first_dose.plot(kind = 'bar')
+
+plt.title('State-wise People Vaccinated with First Dose', fontsize=16)
+plt.xlabel('State', fontsize=12)
+plt.ylabel('Number of People Vaccinated with First Dose', fontsize=12)
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Group the data by 'State' and sum the 'Second Dose Administered' values
+state_wise_second_dose = df.groupby('State')['Second Dose Administered'].sum()
+
+# Plotting the bar chart
+plt.figure(figsize=(12, 8))
+state_wise_second_dose.plot(kind='bar', color='skyblue', edgecolor='black')
+
+# Adding titles and labels
+plt.title('State-wise People Vaccinated with Second Dose', fontsize=16)
+plt.xlabel('State', fontsize=12)
+plt.ylabel('Number of People Vaccinated with Second Dose', fontsize=12)
+
+# Show the plot
+plt.show()
+
+total_male_vaccinated = df['Male(Individuals Vaccinated)'].sum()
+print(total_male_vaccinated)
+
+total_female_vaccinated = df['Female(Individuals Vaccinated)'].sum()
+print(total_female_vaccinated)
+
+import matplotlib.pyplot as plt
+
+# Data for the plot
+categories = ['Males', 'Females']
+values = [total_male_vaccinated, total_female_vaccinated]
+
+# Plotting
+plt.figure(figsize=(8, 5))
+plt.bar(categories, values, color=['blue', 'pink'], edgecolor='black')
+plt.title('Number of Males and Females Vaccinated', fontsize=16)
+plt.ylabel('Number of Individuals', fontsize=12)
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+
+# Show plot
+plt.show()
+
+
+state_wise_female_vaccinated = df.groupby('State')['Female(Individuals Vaccinated)'].sum()
+state_wise_female_vaccinated.plot(kind = 'bar')
