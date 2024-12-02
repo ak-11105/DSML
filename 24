@@ -1,0 +1,55 @@
+import pandas as pd
+import numpy as np
+
+# Load the dataset
+# Replace 'titanic.csv' with your dataset file path
+df = pd.read_csv('titanic.csv')
+
+# Display the dataset
+print("Dataset Preview:")
+print(df.head())
+
+# 1. Count unique values in each column
+print("\nUnique Values Count:")
+unique_counts = df.nunique()
+print(unique_counts)
+
+# 2. Format of each column
+print("\nColumn Data Types:")
+column_types = df.dtypes
+print(column_types)
+
+# 3. Converting variable data type
+# Example: Converting 'Age' from float to int
+if 'Age' in df.columns:
+    print("\nConverting 'Age' column from float to int:")
+    df['Age'] = df['Age'].fillna(0).astype(int)  # Fill NaN with 0 before converting
+    print(df['Age'].head())
+
+# Example: Converting 'Survived' column from int to string
+if 'Survived' in df.columns:
+    print("\nConverting 'Survived' column from int to string:")
+    df['Survived'] = df['Survived'].astype(str)
+    print(df['Survived'].head())
+
+# 4. Identifying missing values
+print("\nMissing Values Per Column:")
+missing_values = df.isnull().sum()
+print(missing_values)
+
+# 5. Filling in missing values
+# Example: Fill missing 'Age' values with the column's mean
+if 'Age' in df.columns:
+    print("\nFilling missing 'Age' values with mean:")
+    df['Age'] = df['Age'].fillna(df['Age'].mean())
+    print(f"Updated 'Age' Missing Values Count: {df['Age'].isnull().sum()}")
+
+# Example: Fill missing 'Embarked' values with mode
+if 'Embarked' in df.columns:
+    print("\nFilling missing 'Embarked' values with mode:")
+    df['Embarked'] = df['Embarked'].fillna(df['Embarked'].mode()[0])
+    print(f"Updated 'Embarked' Missing Values Count: {df['Embarked'].isnull().sum()}")
+
+# Final dataset preview
+print("\nUpdated Dataset Preview:")
+print(df.head())
